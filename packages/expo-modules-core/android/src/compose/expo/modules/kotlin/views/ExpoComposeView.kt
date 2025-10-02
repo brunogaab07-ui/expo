@@ -53,11 +53,6 @@ abstract class ExpoComposeView<T : ComposeProps>(
 
   @Composable
   protected fun Children() {
-    if (withHostingView) {
-      Content(modifier = Modifier.applyTestTag(testID))
-      return
-    }
-
     for (index in 0..<this.size) {
       val child = getChildAt(index) as? ExpoComposeView<*> ?: continue
       child.Content(modifier = Modifier.applyTestTag(child.testID))
@@ -78,7 +73,7 @@ abstract class ExpoComposeView<T : ComposeProps>(
       it.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
       it.setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
       it.setContent {
-        Children()
+        Content(modifier = Modifier.applyTestTag(testID))
       }
       it.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
         override fun onViewAttachedToWindow(v: View) {
